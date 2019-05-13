@@ -29,7 +29,7 @@ class TcpHandshake(object):
         self.seq = 0
         self.seq_next = 0
         self.target = target
-        self.dst = iter(Net(target[0])).next()
+        self.dst = next(iter(Net(target[0])))
         self.dport = target[1]
         self.sport = random.randrange(0,2**16)
         self.l4 = IP(dst=target[0])/TCP(sport=self.sport, dport=self.dport, flags=0,
@@ -127,5 +127,5 @@ if __name__=='__main__':
     conf.verb = 0
     tcp_hs = TcpHandshake(("oststrom.com",80))
     tcp_hs.start()
-    print repr(tcp_hs.send_data("INTENTIONAL BAD REQUEST\r\n\r\n\r\n"))
+    print (repr(tcp_hs.send_data("INTENTIONAL BAD REQUEST\r\n\r\n\r\n")))
     tcp_hs.send_fin()
